@@ -76,6 +76,12 @@ def MatrixSubtraction(matrix1, matrix2):
     return returnMatrix
 
 def Strassen(matrix1, matrix2):
+
+    print("Matrix1: ", matrix1)
+    print("Matrix2: ", matrix2)
+    print(len(matrix1))
+    print()
+
     if len(matrix1) == 2:
         p1 = (matrix1[0][0] + matrix1[1][1]) * (matrix2[0][0] + matrix2[1][1])
         p2 = (matrix1[1][0] + matrix1[1][1]) * matrix2[0][0]
@@ -84,6 +90,13 @@ def Strassen(matrix1, matrix2):
         p5 = (matrix1[0][0] + matrix1[0][1]) * matrix2[1][1]
         p6 = (matrix1[1][0] - matrix1[0][0]) * (matrix2[0][0] + matrix2[0][1])
         p7 = (matrix1[0][1] - matrix1[1][1]) * (matrix2[1][0] + matrix2[1][1])
+
+        c11 = p1 + p4 - p5 + p7
+        c12 = p3 + p5
+        c21 = p2 + p4
+        c22 = p1 + p3 - p2 + p6 
+
+        return [[c11, c12], [c21, c22]]
 
     if len(matrix1) in {4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048}:
         matrix111 = []
@@ -121,22 +134,30 @@ def Strassen(matrix1, matrix2):
         for index in range(int(len(matrix2) / 2), int(len(matrix2))):
             matrix222.append(matrix2[index][int(len(matrix2) / 2):int(len(matrix2))])
 
-        p1 = Strassen(MatrixAddition(matrix111, matrix122), MatrixAddition(matrix211, matrix222))
-        p2 = Strassen(MatrixAddition(matrix121, matrix122), matrix211)
-        p3 = Strassen(matrix111, MatrixSubtraction(matrix212, matrix222))
-        p4 = Strassen(matrix122, MatrixSubtraction(matrix221, matrix211))
-        p5 = Strassen(MatrixAddition(matrix111, matrix112), matrix222)
-        p6 = Strassen(MatrixSubtraction(matrix121, matrix111), MatrixAddition(matrix211, matrix212))
-        p7 = Strassen(MatrixSubtraction(matrix112, matrix122), MatrixAddition(matrix221, matrix222))
+        returnMatrix1 = Strassen(matrix111, matrix211)
+        returnMatrix2 = Strassen(matrix112, matrix212)
+        returnMatrix3 = Strassen(matrix121, matrix221)
+        returnMatrix4 = Strassen(matrix122, matrix222)
 
-    c11 = p1 + p4 - p5 + p7
-    c12 = p3 + p5
-    c21 = p2 + p4
-    c22 = p1 + p3 - p2 + p6 
+        returnMatrix = []
 
-    return [[c11, c12], [c21, c22]]
+        for index1 in range(len(returnMatrix1)):
+            matrixRow = []
+            for index2 in range(len(returnMatrix1[index1])):
+                matrixRow.append(returnMatrix1[index1][index2])
+            for index2 in range(len(returnMatrix2[index1])):
+                matrixRow.append(returnMatrix2[index1][index2])
+            returnMatrix.append(matrixRow)
 
-
+        for index1 in range(len(returnMatrix3)):
+            matrixRow = []
+            for index2 in range(len(returnMatrix3[index1])):
+                matrixRow.append(returnMatrix3[index1][index2])
+            for index2 in range(len(returnMatrix4[index1])):
+                matrixRow.append(returnMatrix4[index1][index2])
+            returnMatrix.append(matrixRow)
+        
+        return(returnMatrix)
 
 def Ex3():
     file = open("matrix1.txt", "r")
