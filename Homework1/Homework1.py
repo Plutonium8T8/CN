@@ -1,5 +1,7 @@
 import sys
 import numpy as np
+import tkinter as tk
+from tkinter import ttk
 
 # 1:
 
@@ -23,16 +25,16 @@ def Ex2_1():
 
     return (x + y) + z == x + (y + z)
 
-print("2.1: The result to the operation \"(x +c y) +c z == x +c (y +c z)\" is: ", Ex2_1())
+print("2.1: (x = 1.0, y = u, z = u) The result to the operation \"(x +c y) +c z == x +c (y +c z)\" is: ", Ex2_1())
 
 def Ex2_2():
-    x = sys.float_info.max
-    y = 1 + Ex1()
-    z = Ex1()
+    x = 0.1
+    y = 0.2
+    z = 0.3
 
     return (x * y) * z == x * (y * z)
 
-print("2.2: The result to the operation \"(x *c y) *c z == x *c (y *c z)\" is: ", Ex2_2())
+print("2.2: (x = 0.1, y = 0.2, z = 0.3) The result to the operation \"(x *c y) *c z == x *c (y *c z)\" is: ", Ex2_2())
 
 
 # 3:
@@ -170,6 +172,48 @@ def Ex3():
     matrix_str = file.read()
     matrix2 = StrToMatrix(matrix_str)
 
-    print(Strassen(matrix1, matrix2))
+    x = Strassen(matrix1, matrix2)
+
+    x = x - np.array(matrix1).dot(np.array(matrix2))
+
+    strx = ''
+    for row in x:
+        for element in row:
+            strx = strx + str(element) + ' '
+        strx = strx + '\n'
+
+    return  strx
 
 Ex3()
+
+def function1():
+    result_label.config(text="The machine precision is: " + str(Ex1()))
+
+def function2():
+    result_label.config(text="2.1: (x = 1.0, y = u, z = u) The result to the operation \"(x +c y) +c z == x +c (y +c z)\" is: " + str(Ex2_1()) +
+                                 '\n' + "2.2: (x = 0.1, y = 0.2, z = 0.3) The result to the operation \"(x *c y) *c z == x *c (y *c z)\" is: "+  str(Ex2_2()) )
+
+def function3():
+    result_label.config( text=("The result of the sum:  \n" + Ex3()))
+
+root = tk.Tk()
+
+style = ttk.Style()
+style.configure("TButton", font=("TkDefaultFont", 12), padding=6)
+
+button1 = tk.Button(root, text="Exercise 1", command=function1)
+button1.pack(padx=20, pady=10)
+
+button2 = tk.Button(root, text="Exercise 2", command=function2)
+button2.pack(padx=20, pady=10)
+
+button3 = tk.Button(root, text="Exercise 3", command=function3)
+button3.pack(padx=20, pady=10)
+
+separator = ttk.Separator(root, orient="horizontal")
+separator.pack(fill="x", padx=20, pady=10)
+
+result_label = ttk.Label(root, font=("TkDefaultFont", 12))
+result_label.pack(padx=20, pady=10)
+
+root.mainloop()
