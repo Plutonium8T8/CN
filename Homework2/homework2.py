@@ -119,20 +119,29 @@ for i in range(len(Ecuation(L, D, Lt, B))):
     else:
         EcuationStr += 'X = ' + str(Ecuation(L, D, Lt, B)[i]) + '\n'
 
+def MatrixToStr(x):
+    strx = ''
+    for row in x:
+        for element in row:
+            strx = strx + str(element) + '   '
+        strx = strx + '\n'
+
+    return  strx
+
 def function1():
-    result_label.config(text="L: \n" + str(L))
+    result_label.config(text="L: \n" + MatrixToStr(L))
 
 def function2():
     result_label.config(text="D: \n" + str(DStr))
 
 def function3():
-    result_label.config( text="Lt: \n" + str(Lt))
+    result_label.config( text="Lt: \n" + MatrixToStr(Lt))
 
 def function4():
-    result_label.config( text="T: \n" + str(T))
+    result_label.config( text="T: \n" + MatrixToStr(T))
 
 def function5():
-    result_label.config( text="U: \n" + str(U))
+    result_label.config( text="U: \n" + MatrixToStr(U))
 
 def function6():
     result_label.config( text="Epsilon = " +  str(Bonus(matrix, L, auxD, Lt)))
