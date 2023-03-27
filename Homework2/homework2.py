@@ -31,7 +31,7 @@ def CholeskyDecomp(A):
     for i in range(n):
         for j in range(i):
             if i > j:
-                L[i,j] = (A[i,j] - sum(L[i,k]*L[j,k]*D[k,k] for k in range(j))) / D[j,j]  
+                L[i,j] -= (A[i,j] - sum(L[i,k]*L[j,k]*D[k,k] for k in range(j))) / D[j,j]  
         L[i,i] = 1
         D[i,i] = A[i,i] - sum(L[i,k] * L[i,k] *D[k,k] for k in range(i))
     return L, D
@@ -89,13 +89,18 @@ file = open("matrix1.txt", "r")
 matrix_str = file.read()
 matrix = StrToMatrix(matrix_str)
 
+detA = 1
+
 L, auxD = CholeskyDecomp(np.array(matrix))
 D = []
 for index in range(len(auxD)):
     D.append(auxD[index][index])
+    detA *= auxD[index][index]
 Lt = np.transpose(L)
 T = np.matmul(L, auxD)
 U = Lt
+
+print("DetA = ", detA)
 
 file = open("B.txt", "r")
 matrix_str = file.read()
@@ -147,6 +152,9 @@ def function6():
     result_label.config( text="Epsilon = " +  str(Bonus(matrix, L, auxD, Lt)))
 
 def function7():
+    result_label.config( text=EcuationStr)
+
+def function8():
     result_label.config( text=EcuationStr)
 
 root = tk.Tk()

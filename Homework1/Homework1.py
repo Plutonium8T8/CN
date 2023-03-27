@@ -176,7 +176,7 @@ def Ex3():
 
     x = x - np.array(matrix1).dot(np.array(matrix2))
 
-    strx = ''
+    
     for row in x:
         for element in row:
             strx = strx + str(element) + ' '
