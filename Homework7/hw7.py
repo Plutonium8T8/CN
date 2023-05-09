@@ -78,7 +78,7 @@ def Pdivide(dividend, divisor):
     return quotient, remainder
 
 
-def laguerre(poly, x, maxK = 10000):
+def laguerre(poly, maxK = 10000):
     epsilon = 1e-12
 
     k = 0
@@ -88,6 +88,8 @@ def laguerre(poly, x, maxK = 10000):
     _R = -R
 
     print("-R: ", _R, "| R: ", R)
+
+    x = np.random.uniform(-R, R)
 
     n = len(poly) - 1
 
@@ -139,21 +141,24 @@ def horner(poly, x):
     return result
 
 def equation(poly):
+    file = open("d:/CN/Homework7/" + str(poly) + ".txt", "w")
     print("Polynome: ", poly)
     for index in range(len(poly) - 1):
-        root = laguerre(poly, 1)
+        root = laguerre(poly)
         # root = np.round(root)
         divisor = [1, -root]
         poly, reminder = Pdivide(poly, divisor)
 
         if reminder != 0.0:
             print("Root ", index + 1, " : ", root)
+            file.write("Root " + str(index + 1) + " : " + str(root) + "\n")
     print()
+    file.close()
 
 equation(np.array([1, -6, 11, -6]))
 
 equation(np.array([1, -55/42, -1, 49/42, -6/42]))
 
-equation(np.array([1, -55/42, -1, 49/42, -6/42]))
+equation(np.array([1, -38/8, 49/8, -22/8, 3/8]))
 
 equation(np.array([1, -6, 13, -12, 4]))
